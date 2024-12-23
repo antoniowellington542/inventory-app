@@ -8,16 +8,16 @@ export default {
     extend: {
       colors: {
         gray: {
-          50: '#f4f4f4',
+          50: '#f4f4fc',
           100: '#e8e8e8',
           200: '#d1d1d1',
           300: '#b9b9b9',
-          400: '#9e9e9e',
+          400: '#ced4da',
           500: '#818181',
-          600: '#666666',
+          600: '#6c757d',
           700: '#4d4d4d',
           800: '#333333', 
-          900: '#1a1a1a'
+          900: '#212529'
         },
         yellow: {
           50: '#fffbea',
@@ -30,6 +30,9 @@ export default {
           700: '#cb6e17',
           800: '#b44d12',
           900: '#8d2b0b'
+        },
+        blue: {
+          500: "#04b4fc"
         },
         white: {
           DEFAULT: '#ffffff',
@@ -48,7 +51,24 @@ export default {
         red: {
           500: '#E3342F'
         },
-      }
+      },
+      keyframes: {
+        overlayShow: {
+					from: { opacity: "0" },
+					to: { opacity: "1" },
+				},
+				contentShow: {
+					from: {
+						opacity: "0",
+						transform: "translate(-50%, -48%) scale(0.96)",
+					},
+					to: { opacity: "1", transform: "translate(-50%, -50%) scale(1)" },
+				},
+      },
+      animation: {
+				"overlay-show": "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+				"content-show": "contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)"
+			},
     }
   },
   plugins: [],

@@ -4,22 +4,34 @@ interface Product {
     id: number
     name: string
     quantity: number
-    role: {
+    price: number
+    category: {
         id: number
         name: string
     }
 }
 
-interface RetrieveProductsResponse {
+interface RetrieveProductsOutput {
     products: Array<Product>
+}
+
+export interface CreateProductInput {
+    name: string
+    quantity: number
+    categoryId: number
+    price: number
 }
 
 
 class ProductService {
-    async retrieveAll (): Promise<RetrieveProductsResponse> {
-        const { data } = await httpClient.get<RetrieveProductsResponse>("/products")
+    async retrieveAll (): Promise<Array<Product>> {
+        const { data } = await httpClient.get<RetrieveProductsOutput>("/products")
             
-        return data
+        return data.products
+    }
+
+    async create (input: CreateProductInput): Promise<void> {
+        await httpClient.post("/product", input)
     }
 }
 
