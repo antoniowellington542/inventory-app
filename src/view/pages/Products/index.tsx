@@ -10,7 +10,6 @@ const Products = () => {
         handleOpenCreateProductModal,
         handleCloseCreateProductModal,
         isCreateProductModalOpen,
-        isLoading,
         products
     } = useProductsController()
 

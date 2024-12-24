@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import * as RdxSelect from "@radix-ui/react-select"
 import {
-	CheckIcon,
 	ChevronDownIcon,
 	ChevronUpIcon,
 	CrossCircledIcon,
