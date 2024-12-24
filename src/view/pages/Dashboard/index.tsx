@@ -1,8 +1,17 @@
+import { PieChart } from "@/components/Charts/PieChart"
+
 const Dashboard = () => {
 
     return (
         <div className="w-full h-full">
-            <h1>dashboard</h1>
+            <div className="grid grid-cols-3 gap-8">
+                <div className="col-span-1">
+                    <PieChart />
+                </div>
+                <div className="col-span-1">
+                    <PieChart />
+                </div>
+            </div>
         </div>
     )
 }

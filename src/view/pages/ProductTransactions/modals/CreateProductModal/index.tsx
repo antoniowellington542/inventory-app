@@ -1,29 +1,24 @@
 import Input from "@/components/Input"
 import InputCurrency from "@/components/InputCurrency"
 import Select from "@/components/Select"
-import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Controller } from "react-hook-form"
 import useCreateProductTransactionModalController from "./useCreateProductTransactionModalController"
 import { CirclePlus } from "lucide-react"
 import Modal from "@/components/Modal"
+import { ProductTransactionFormattedForConstruction } from "@/app/protocols/ProductTransactionProtocol"
 
 const CreateProductTransactionModal = () => {
 	const {
 		errors,
-		handleGetProductCategories,
-		productCategories,
 		handleSubmit,
 		register,
 		control,
 		handleCloseCreateProductTransactionModal,
 		handleOpenCreateProductTransactionModal,
-		isCreateProductTransactionModalOpen
+		isCreateProductTransactionModalOpen,
+		products
 	} = useCreateProductTransactionModalController()
-
-	useEffect(() => {
-		handleGetProductCategories()
-	}, [])
 
 	return (
 		<Modal
@@ -32,6 +27,7 @@ const CreateProductTransactionModal = () => {
 				<Button
 					size="lg"
 					variant="default"
+					className="rounded-xl"
 					onClick={handleOpenCreateProductTransactionModal}
 				>
 					<CirclePlus /> Criar transacao
@@ -62,11 +58,43 @@ const CreateProductTransactionModal = () => {
 					</div>
 
 					<div className="mt-10 flex flex-col gap-4">
-						<Input
-							type="text"
-							placeholder="Nome"
-							error={errors?.name?.message}
-							{...register("name")}
+						<Controller
+							control={control}
+							name="productId"
+							render={({ field: { onChange }}) => (
+								<Select
+									placeholder="Selecione um produto"
+									options={products.map(product => ({
+										label: product.name,
+										value: String(product.id)
+									}))}
+									onChange={onChange}
+									error={errors?.productId?.message}
+								/>
+							)}
+						/>
+
+						<Controller
+							control={control}
+							name="transactionType"
+							render={({ field: { onChange }}) => (
+								<Select
+									placeholder="Tipo da transacao"
+									options={(["add", "remove"] as ProductTransactionFormattedForConstruction["type"][]).map(type => {
+										const transactionTypeToTranslateType: Record<ProductTransactionFormattedForConstruction["type"], string> = {
+											add: "Entrada",
+											remove: "Saida"
+										}
+										
+										return {
+											label: transactionTypeToTranslateType[type],
+											value: String(type)
+										}
+									})}
+									onChange={onChange}
+									error={errors?.transactionType?.message}
+								/>
+							)}
 						/>
 
 						<Input
@@ -74,23 +102,7 @@ const CreateProductTransactionModal = () => {
 							placeholder="Quantidade"
 							error={errors?.quantity?.message}
 							{...register("quantity")}
-							defaultValue={0}
-						/>
-
-						<Controller
-							control={control}
-							name="categoryId"
-							render={({ field: { onChange }}) => (
-								<Select
-									placeholder="Selecione uma categoria"
-									options={productCategories.map(category => ({
-										label: category.name,
-										value: String(category.id)
-									}))}
-									onChange={onChange}
-									error={errors?.categoryId?.message}
-								/>
-							)}
+							defaultValue={1}
 						/>
 					</div>
 

@@ -1,5 +1,6 @@
-import productCategoryService, { ProductCategory } from "@/app/services/productCategoryService"
-import productService, { CreateProductInput } from "@/app/services/productService"
+import { CreateProductTransactionInput } from "@/app/protocols/ProductTransactionProtocol"
+import { Product } from "@/app/services/productService"
+import productTransactionService from "@/app/services/productTransactionService"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
@@ -8,18 +9,15 @@ import toast from "react-hot-toast"
 import { z } from "zod"
 
 const createProductTransactionZodSchema = z.object({
-    name: z.string()
-        .nonempty("Nome do produto obrigatorio")
-        .max(64, "Nome nao pode ser maior que 64 caracteres"),
+    transactionType: z.enum(["add", "remove"], { required_error: "Tipo da transacao nao pode ser vazio" }),
     price: z.string().nonempty("Valor do produto nao pode ser vazio"),
     quantity: z.coerce.number().nonnegative(),
-    categoryId: z.string({ required_error: "Categoria nao pode ser vazia" }).nonempty()
+    productId: z.string({ required_error: "Produto nao pode ser vazio" }).nonempty()
 })
 
 type CreateProductTransactionFormData = z.infer<typeof createProductTransactionZodSchema>
 
 const useCreateProductTransactionModalController = () => {
-    const [productCategories, setProductCategories] = useState<Array<ProductCategory>>([])
     const [isCreateProductTransactionModalOpen, setIsCreateProductTransactionModalOpen] = useState<boolean>(false)
 
     const handleOpenCreateProductTransactionModal = () => {
@@ -39,65 +37,54 @@ const useCreateProductTransactionModalController = () => {
     } = useForm<CreateProductTransactionFormData>({
         resolver: zodResolver(createProductTransactionZodSchema),
         defaultValues: {
-            quantity: 0,
+            quantity: 1,
             price: "0"
         }
     })
 
     const queryClient = useQueryClient()
 
-    const handleGetProductCategories = async () => {
-        try {
-            const response = await productCategoryService.retrieveAll()
-                
-            setProductCategories(response.productCategories)
-        } catch (error) {
-            toast.error("Houve um problema ao carregar as categorias dos produtos")
-        }
-    }
-
     const {
         mutateAsync,
         isPending
     } = useMutation({
-        mutationKey: ["signin"],
-        mutationFn: async (data: CreateProductInput) => {
-            return productService.create(data)
+        mutationKey: ["create-product-transaction"],
+        mutationFn: async (data: CreateProductTransactionInput) => {
+            return productTransactionService.create(data)
         }
     })
 
     const handleSubmit = hookFormSubmit(async (data: CreateProductTransactionFormData) => {
         try {
             await mutateAsync({
-                name: data.name,
-                categoryId: parseInt(data.categoryId),
+                transactionType: data.transactionType,
+                productId: parseInt(data.productId),
                 price: parseFloat(data.price),
                 quantity: data.quantity
             })
 
-            queryClient.invalidateQueries({ queryKey: ["products"]})
+            queryClient.invalidateQueries({ queryKey: ["product-transactions"]})
 
-            toast.success("Produto criado com sucesso")
+            toast.success("Operacao realizada com sucesso")
 
             reset()
         } catch (error) {
             console.log(error)
 
-            toast.error("Erro ao criar produto")
+            toast.error("Erro ao realizar operacao no estoque")
         }
     })
 
     return {
         handleSubmit,
-        handleGetProductCategories,
-        productCategories,
         register,
         errors,
         control,
         isLoading: isPending,
         handleCloseCreateProductTransactionModal,
         handleOpenCreateProductTransactionModal,
-        isCreateProductTransactionModalOpen
+        isCreateProductTransactionModalOpen,
+        products: queryClient.getQueryData<Array<Product>>(["products"]) || []
     }
 }
 

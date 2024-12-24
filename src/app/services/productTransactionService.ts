@@ -1,38 +1,9 @@
 import httpClient from "@/app/services/httpClient"
-
-export interface ProductTransaction {
-    id: number
-    productId: string
-    quantity: number
-    type: "add" | "remove"
-    totalPrice: number
-    createdAt: Date
-    updatedAt: Date
-}
-
-export interface ProductTransactionFormattedForConstruction {
-    id: number
-    product: {
-        id: number
-        name: string
-    }
-    quantity: number
-    type: "add" | "remove"
-    totalPrice: number
-    createdAt: Date
-}
-
-interface RetrieveProductTransactionOutput {
-    productTransactions: Array<ProductTransactionFormattedForConstruction>
-}
-
-export interface CreateProductTransactionInput {
-    transactionType: ProductTransaction["type"]
-    quantity: ProductTransaction["quantity"]
-    productId: number
-    price: ProductTransaction["totalPrice"]
-}
-
+import {
+    ProductTransactionFormattedForConstruction,
+    CreateProductTransactionInput,
+    RetrieveProductTransactionOutput
+} from "@/app/protocols/ProductTransactionProtocol"
 
 class ProductTransactionService {
     async retrieveAll (): Promise<Array<ProductTransactionFormattedForConstruction>> {

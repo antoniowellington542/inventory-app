@@ -7,7 +7,7 @@ const useProductsController = () => {
         data = [],
         isFetching
     } = useQuery({
-        queryKey: ["productTransactions"],
+        queryKey: ["products"],
         queryFn: productService.retrieveAll
     })
 

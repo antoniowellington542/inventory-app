@@ -32,6 +32,7 @@ const CreateProductModal = () => {
                 <Button
                     size="lg"
                     variant="default"
+                    className="rounded-xl"
                     onClick={handleOpenCreateProductModal}
                 >
                     <CirclePlus /> Criar Produto

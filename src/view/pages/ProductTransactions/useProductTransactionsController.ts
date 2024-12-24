@@ -1,4 +1,5 @@
-import productTransactionService, { ProductTransactionFormattedForConstruction } from "@/app/services/productTransactionService"
+import { ProductTransactionFormattedForConstruction } from "@/app/protocols/ProductTransactionProtocol"
+import productTransactionService from "@/app/services/productTransactionService"
 import { useQuery } from "@tanstack/react-query"
 import { ColumnDef } from "@tanstack/react-table"
 
@@ -7,7 +8,7 @@ const useProductsTransactionController = () => {
         data = [],
         isFetching
     } = useQuery({
-        queryKey: ["products"],
+        queryKey: ["product-transactions"],
         queryFn: productTransactionService.retrieveAll
     })
 
