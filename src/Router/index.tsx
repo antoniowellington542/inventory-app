@@ -40,6 +40,7 @@ const Router = () =>  {
             <Routes>
                 <Route element={<AuthGuard isPrivate={false} />}>
                     <Route element={<AuthLayout />}>
+                        <Route path="/" element={<Login />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                     </Route>
