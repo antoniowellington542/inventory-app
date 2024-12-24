@@ -20,6 +20,15 @@ type CreateProductTransactionFormData = z.infer<typeof createProductTransactionZ
 
 const useCreateProductTransactionModalController = () => {
     const [productCategories, setProductCategories] = useState<Array<ProductCategory>>([])
+    const [isCreateProductTransactionModalOpen, setIsCreateProductTransactionModalOpen] = useState<boolean>(false)
+
+    const handleOpenCreateProductTransactionModal = () => {
+        setIsCreateProductTransactionModalOpen(true)
+    }
+
+    const handleCloseCreateProductTransactionModal = () => {
+        setIsCreateProductTransactionModalOpen(false)
+    }
 
     const {
         handleSubmit: hookFormSubmit,
@@ -85,7 +94,10 @@ const useCreateProductTransactionModalController = () => {
         register,
         errors,
         control,
-        isLoading: isPending
+        isLoading: isPending,
+        handleCloseCreateProductTransactionModal,
+        handleOpenCreateProductTransactionModal,
+        isCreateProductTransactionModalOpen
     }
 }
 

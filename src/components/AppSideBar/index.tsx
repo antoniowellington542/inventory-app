@@ -5,8 +5,7 @@ import {
   ArrowLeftRight,
   GalleryVerticalEnd,
   Gauge,
-  Layers,
-  Settings2
+  Layers
 } from "lucide-react"
 
 import { NavMain } from "@/components/AppSideBar/NavMain"

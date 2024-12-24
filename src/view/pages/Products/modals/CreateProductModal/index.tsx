@@ -15,7 +15,10 @@ const CreateProductModal = () => {
         productCategories,
         handleSubmit,
         register,
-        control
+        control,
+        isCreateProductModalOpen,
+        handleOpenCreateProductModal,
+        handleCloseCreateProductModal
     } = useCreateProductModalController()
 
     useEffect(() => {
@@ -29,10 +32,13 @@ const CreateProductModal = () => {
                 <Button
                     size="lg"
                     variant="default"
+                    onClick={handleOpenCreateProductModal}
                 >
                     <CirclePlus /> Criar Produto
                 </Button>
             )}
+            open={isCreateProductModalOpen}
+            onClose={handleCloseCreateProductModal}
         >
             <form onSubmit={handleSubmit}>
                 <div>

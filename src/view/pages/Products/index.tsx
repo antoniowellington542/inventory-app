@@ -15,7 +15,7 @@ const Products = () => {
             <CardHeader
                 className="flex-row items-center justify-between"
             >
-                <CardTitle>Transacoes de Produtos</CardTitle>
+                <CardTitle>Produtos</CardTitle>
                 <div className="flex justify-between">
                     <div />
                     <div className="flex-nowrap">

@@ -20,13 +20,21 @@ type CreateProductFormData = z.infer<typeof createProductZodSchema>
 
 const useCreateProductModalController = () => {
     const [productCategories, setProductCategories] = useState<Array<ProductCategory>>([])
+    const [isCreateProductModalOpen, setIsCreateProductModalOpen] = useState<boolean>(false)
+
+    const handleOpenCreateProductModal = () => {
+        setIsCreateProductModalOpen(true)
+    }
+
+    const handleCloseCreateProductModal = () => {
+        setIsCreateProductModalOpen(false)
+    }
 
     const {
         handleSubmit: hookFormSubmit,
         register,
         formState: { errors },
-        control,
-        reset
+        control
     } = useForm<CreateProductFormData>({
         resolver: zodResolver(createProductZodSchema),
         defaultValues: {
@@ -70,7 +78,7 @@ const useCreateProductModalController = () => {
 
             toast.success("Produto criado com sucesso")
 
-            reset()
+            handleCloseCreateProductModal()
         } catch (error) {
             console.log(error)
 
@@ -85,7 +93,10 @@ const useCreateProductModalController = () => {
         register,
         errors,
         control,
-        isLoading: isPending
+        isLoading: isPending,
+        isCreateProductModalOpen,
+        handleCloseCreateProductModal,
+        handleOpenCreateProductModal
     }
 }
 

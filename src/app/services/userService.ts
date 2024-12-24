@@ -1,4 +1,6 @@
 import httpClient from "@/app/services/httpClient"
+import { UserFormattedForConstruction } from "@/app/protocols/UserProtocol"
+import { sleep } from "../utils/sleepUtil"
 
 type CreateUserInput = {
     email: string
@@ -7,9 +9,7 @@ type CreateUserInput = {
 }
 
 type RetrieveOneUserOutput = {
-    email: string
-    name: string
-    roleType: "user" | "admin"
+    user: UserFormattedForConstruction
 }
 
 class UserService {
@@ -21,10 +21,12 @@ class UserService {
         return data
     }
 
-    async retrieveOne (): Promise<RetrieveOneUserOutput> {
+    async retrieveOne (): Promise<UserFormattedForConstruction> {
+        await sleep()
+
         const { data } = await httpClient.get<RetrieveOneUserOutput>("/user")
             
-        return data
+        return data.user
     }
 }
 

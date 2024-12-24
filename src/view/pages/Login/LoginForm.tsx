@@ -3,18 +3,26 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import Input from "@/components/Input"
 import React from "react"
+import useLoginController from "./useLoginController"
+import Spinner from "@/components/Spinner"
+import { Link } from "react-router-dom"
 
 const LoginForm: React.FC<React.ComponentPropsWithoutRef<"div">> = (props) => {
     const {
         className
     } = props
+
+    const {
+        errors,
+        handleSubmit,
+        isLoading,
+        register
+    } = useLoginController()
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -24,39 +32,45 @@ const LoginForm: React.FC<React.ComponentPropsWithoutRef<"div">> = (props) => {
 
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="grid gap-6">
                             <div className="grid gap-6">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="email">Email</Label>
                                     <Input
-                                        id="email"
                                         type="email"
-                                        placeholder="m@example.com"
-                                        required
+                                        {...register("email")}
+                                        placeholder="Email"
+                                        error={errors?.email?.message}    
                                     />
                                 </div>
                             <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Senha</Label>
-                                <a
-                                href="#"
-                                className="ml-auto text-sm underline-offset-4 hover:underline"
-                                >
-                                Esqueci minha senha?
-                                </a>
+                                <div className="flex items-center">
+                                    <a
+                                        href="#"
+                                        className="ml-auto text-sm underline-offset-4 hover:underline"
+                                    >
+                                        Esqueci minha senha?
+                                    </a>
+                                </div>
+                                <Input
+                                    placeholder="Senha"
+                                    error={errors?.password?.message}
+                                    type="password"
+                                    {...register("password")}    
+                                />
                             </div>
-                                <Input id="password" type="password" required />
-                            </div>
-                                <Button type="submit" className="w-full">
-                                    Login
-                                </Button>
+                            <Button
+                                type="submit"
+                                className="w-full"
+                            >
+                                {isLoading ? <Spinner /> : "Login"}
+                            </Button>
                             </div>
                             <div className="text-center text-sm">
                                 Nao tem uma conta?{" "}
-                                <a href="#" className="underline underline-offset-4">
-                                Cadastre-se
-                                </a>
+                                <Link to="/register" className="underline underline-offset-4">
+                                    Cadastre-se
+                                </Link>
                             </div>
                         </div>
                     </form>
