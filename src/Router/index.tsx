@@ -6,7 +6,7 @@ import Register from "@/view/pages/Register"
 import AuthLayout from "@/view/layouts/AuthLayout"
 import { useAuth } from "@/app/hooks/useAuth"
 import Products from "@/view/pages/Products"
-import Transactions from "@/view/pages/Transactions"
+import ProductTransactions from "@/view/pages/ProductTransactions"
 import Profile from "@/view/pages/Profile"
 import PrivateLayout from "@/view/layouts/PrivateLayout"
 import Dashboard from "@/view/pages/Dashboard"
@@ -50,7 +50,7 @@ const Router = () =>  {
                     <Route element={<PrivateLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/products" element={<Products />} />
-                        <Route path="/transactions" element={<Transactions />} />
+                        <Route path="/product-transactions" element={<ProductTransactions />} />
                         <Route path="/profile" element={<Profile />} />
                     </Route>
                 </Route>

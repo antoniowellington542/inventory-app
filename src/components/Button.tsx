@@ -1,6 +1,6 @@
 import { classNameUtil } from "@/app/utils/classNameUtil"
 import React, { ComponentProps } from "react"
-import Spinner from "@/view/components/Spinner"
+import Spinner from "@/components/Spinner"
 
 interface ButtonProps extends ComponentProps<"button"> {
     isLoading?: boolean

@@ -4,9 +4,9 @@ import {
     ReaderIcon,
     PersonIcon
 } from "@radix-ui/react-icons"
-import Button from "@/view/components/Button"
+import Button from "@/components/Button"
 import { useAuth } from "@/app/hooks/useAuth"
-import ListItemMenu from "@/view/components/ListItemMenu"
+import ListItemMenu from "@/components/ListItemMenu"
 
 const SideBarMenu = () => {
     const { signout } = useAuth()

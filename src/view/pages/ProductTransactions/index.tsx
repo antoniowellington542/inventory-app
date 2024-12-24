@@ -1,14 +1,13 @@
-import useProductsController from "@/view/pages/Products/useProductsController"
-import CreateProductModal from "./modals/CreateProductModal"
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import CreateProductTransactionModal from "./modals/CreateProductModal"
+import useProductTransactionsController from "./useProductTransactionsController"
 import { DataTable } from "@/components/DataTable"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 
-const Products = () => {
+const ProductTransactions = () => {
     const {
-        products,
-        tableColumns
-    } = useProductsController()
+        productTransactions,
+        columns
+    } = useProductTransactionsController()
 
     return (
         <Card>
@@ -19,18 +18,18 @@ const Products = () => {
                 <div className="flex justify-between">
                     <div />
                     <div className="flex-nowrap">
-                        <CreateProductModal />
+                        <CreateProductTransactionModal />
                     </div>
                 </div>
             </CardHeader>
             <CardContent className="p-4">
                 <DataTable
-                    columns={tableColumns}
-                    data={products}
+                    columns={columns}
+                    data={productTransactions}
                 />
             </CardContent>
         </Card>
     )
 }
 
-export default Products
+export default ProductTransactions

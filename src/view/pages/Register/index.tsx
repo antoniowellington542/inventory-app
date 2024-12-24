@@ -1,7 +1,7 @@
 import {
     Button,
     Input
-} from "@/view/components"
+} from "@/components"
 
 import useRegisterController from "@/view/pages/Register/useRegisterController"
 

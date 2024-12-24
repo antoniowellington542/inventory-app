@@ -1,32 +1,42 @@
-import productService from "@/app/services/productService"
+import productService, { Product } from "@/app/services/productService"
 import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import { ColumnDef } from "@tanstack/react-table"
 
 const useProductsController = () => {
-    const [isCreateProductModalOpen, setIsCreateProductModalOpen] = useState<boolean>(false)
-
-    const handleOpenCreateProductModal = async () => {
-        setIsCreateProductModalOpen(true)
-    }
-
-    const handleCloseCreateProductModal = () => {
-        setIsCreateProductModalOpen(false)
-    }
-
     const {
         data = [],
         isFetching
     } = useQuery({
-        queryKey: ["products"],
+        queryKey: ["productTransactions"],
         queryFn: productService.retrieveAll
     })
 
+    const columns: ColumnDef<Product>[] = [
+        {
+            accessorKey: "name",
+            header: "Nome"
+        },
+        {
+            accessorKey: "category",
+            header: "Categoria",
+            cell: ({ row }) => {
+                return row.original.category.name
+            }
+        },
+        {
+            accessorKey: "price",
+            header: "Preco"
+        },
+        {
+            accessorKey: "quantity",
+            header: "Quantidade"
+        }
+    ]
+
     return {
-        handleCloseCreateProductModal,
-        handleOpenCreateProductModal,
-        isCreateProductModalOpen,
         products: data,
-        isLoading: isFetching
+        isLoading: isFetching,
+        tableColumns: columns
     }
 }
 

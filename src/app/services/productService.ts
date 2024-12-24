@@ -1,6 +1,6 @@
 import httpClient from "@/app/services/httpClient"
 
-interface Product {
+export interface Product {
     id: number
     name: string
     quantity: number

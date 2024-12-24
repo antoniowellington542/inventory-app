@@ -1,31 +1,21 @@
-import Input from "@/view/components/Input"
-import InputCurrency from "@/view/components/InputCurrency"
-import Modal from "@/view/components/Modal"
-import Select from "@/view/components/Select"
-import React, { useEffect } from "react"
+import Input from "@/components/Input"
+import InputCurrency from "@/components/InputCurrency"
+import Modal from "@/components/Modal"
+import Select from "@/components/Select"
+import { useEffect } from "react"
 import useCreateProductModalController from "@/view/pages/Products/modals/CreateProductModal/useCreateProductModalController"
-import { Button } from "@/view/components"
+import { Button } from "@/components/ui/button"
 import { Controller } from "react-hook-form"
+import { CirclePlus } from "lucide-react"
 
-interface NewProductModalProps {
-    open: boolean
-    onClose: () => void
-}
-
-const NewProductModal: React.FC<NewProductModalProps> = (props) => {
-    const {
-        open,
-        onClose
-    } = props
-
-    const {
+const CreateProductModal = () => {
+   const {
         errors,
         handleGetProductCategories,
         productCategories,
         handleSubmit,
         register,
-        control,
-        isLoading
+        control
     } = useCreateProductModalController()
 
     useEffect(() => {
@@ -34,9 +24,15 @@ const NewProductModal: React.FC<NewProductModalProps> = (props) => {
 
     return (
         <Modal
-            open={open}
             title="Cadastrar Produtos"
-            onClose={onClose}
+            actionTrigger={(
+                <Button
+                    size="lg"
+                    variant="default"
+                >
+                    <CirclePlus /> Criar Produto
+                </Button>
+            )}
         >
             <form onSubmit={handleSubmit}>
                 <div>
@@ -95,7 +91,6 @@ const NewProductModal: React.FC<NewProductModalProps> = (props) => {
                 <Button
                     type="submit"
                     className="w-full mt-6"
-                    isLoading={isLoading}
                 >
                     Criar Produto
                 </Button>
@@ -104,4 +99,4 @@ const NewProductModal: React.FC<NewProductModalProps> = (props) => {
     )
 }
 
-export default NewProductModal
+export default CreateProductModal
